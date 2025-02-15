@@ -1,0 +1,38 @@
+2+2
+3 ^ 2
+# La operación 2+2
+Mujeres <- 18
+Hombres <- 3
+Total <- Hombres + Mujeres 
+Hombres + Mujeres 
+
+#Ejercicio 1
+Cho <- 535000
+Vero <- 1350000
+
+Total_celulas <- Cho + Vero
+
+Total_celulas
+
+#Ejercicio 2 
+x <- 35
+y <- 22
+w <- "34"
+z <- "25"
+x+y
+w+z
+
+#Ejercicio 3 . Vector son las columnas y se le pone "c"
+Nombre <- c("Renata", "Diego", "Isa", "Lidia")
+Altura <- c(1.63, 1.80, 1.67, 1.48)
+Tabla <- data.frame(Nombre=Nombre, 
+                    Altura=Altura)
+View(Tabla) #Para visualizar la tabla 
+head (Tabla) #Para que no me salga la tabla en la pestaña y solo en la consola 
+
+#Ejercicio 4
+A <- c("Perro", "Gato", "Cho", "Vero")
+B <- c("12","25","530000","1350000")
+Tabla_2 <- data.frame(Grupo=A, Valor=B)
+View (Tabla_2)
+head (Tabla_2)
