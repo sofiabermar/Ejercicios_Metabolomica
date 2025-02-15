@@ -1,0 +1,24 @@
+#Ejercicio Data.frame Motivo de Muerte 
+install.packages("kableExtra") #Para cuando quiero ponerle colores a mi tabla  
+library(kableExtra)
+
+Motivo_de_Muerte <- c("Falla sistema urinario","Neoplasia","Infeccioso","Trauma","Falla sistema cardiovascular","Muerte subita","Cuerpo extraño")
+Año_0_a_4<- c(16,13,23,19,4,3,1)
+Año_5_a_9 <- c(33,23,15,5,6,3,5)
+Año_10_a_14 <- c(47,50,13,3,9,1,0)
+Año_15_a_mas <- c(43,37,2,1,2,0,0)
+Tabla <- 
+  data.frame(Motivo_de_Muerte=Motivo_de_Muerte,
+             "Edad 0 a 4 "= Año_0_a_4,
+             "Edad 5 a 9 "= Año_5_a_9,
+             "Edad 10 a 14 "= Año_10_a_14,
+             " Edad 15 o más"= Año_15_a_mas,
+             check.names = FALSE)
+Tabla %>%
+  kable("html") %>%
+  kable_styling("striped", full_width = F, bootstrap_options = c("hover", "condensed")) %>%
+  row_spec(0, bold = TRUE, background = "#b297b5") %>%  # Encabezado 
+  column_spec(2:5, background = "#caaece")  # Color para columnas numéricas
+
+View(Tabla)
+head(Tabla)
