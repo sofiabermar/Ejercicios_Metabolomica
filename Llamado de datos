@@ -1,0 +1,31 @@
+#Llamado de datos 
+#Diseño: Sofía Berdeja Martínez 
+
+#install.packages("pacman")pacman es un paquete para descargar paquetes si no lo tienes 
+
+library("pacman") #llaman a los paquetes 
+
+p_load("readr") #función dentro del paquete pacman para llamar otros paquetes y si no están insralados, los instala 
+
+Datos_PCR <- read.csv(file="https://raw.githubusercontent.com/ManuelLaraMVZ/Transcript-mica/refs/heads/main/Resultados_tiempo_real.csv")
+View(Datos_PCR)
+head(Datos_PCR)
+
+p_load("dplyr") #Facilitar el manejo de datos 
+
+Tabla_filtrada <- Datos_PCR %>% #El símbolo ese raro es con command, shift,M
+  select("Ciclos", "Cb")
+
+Tabla_filtrada
+#Paquete para hacer gráficas ggplot2
+p_load("ggplot2")
+ggplot(Tabla_filtrada, aes(x = Ciclos, y = Cb)) +
+  geom_line(color = "#d6b8db", size = 1) +  # Línea morada, entro a https://htmlcolorcodes.com/es/ para poder poner los colores
+  geom_point(color = "#b89ebd", size = 2) +  # Puntos morados 
+  theme_minimal() +  # Estilo limpio
+  labs(title = "Gráfica de Fluorescencia vs Ciclos",
+       subtitle = "Cre:Sofi Berdeja",
+       caption= "Muestra de cerebelo",
+       x = "Ciclos",
+       y = "Fluorescencia") +
+  theme_get()
