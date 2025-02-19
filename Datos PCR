@@ -1,0 +1,45 @@
+#Datos PCR 
+install.packages("pacman")# Para bajar todos los programas 
+library("pacman")
+
+p_load("readr", #leer archivos cvs
+       "dplyr", #manejo de datos 
+       "ggplot2") #para graficar
+PCR <- read.csv(file="https://raw.githubusercontent.com/ManuelLaraMVZ/Transcript-mica/main/datos_miRNAs.csv")#Para cuando ya tengo el link el raw y quiero bajar los datos
+head(PCR)
+
+#Análisis de datos masivos 
+Referencia <- PCR %>% #El simbolo se hace con command shift M. Sirve para decir que a la tabla le va a hacer lo siguiente 
+  filter(Condicion =="Control") %>% 
+  select(-2) %>% #Para cuando queremos que no salga una columna 
+  filter(Gen=="U6 snRNA-001973") #Para cuando solo quieres trabajar con un gen 
+ 
+Referencia
+
+Genes <- PCR %>% 
+  filter(Condicion == "Target") %>% 
+  select(-2)
+Genes
+
+Mean_Ref <- Referencia %>% 
+  mutate(Mean_Cx=(Cx1+Cx2+Cx3)/3,#Para crear nueva columna, con alguna condición 
+         Mean_Tx=(T1+T2+T3)/3) %>% 
+  select("Gen","Mean_Cx","Mean_Tx") #Para quitar columnas el select
+
+Mean_Ref
+
+Mean_Gen <- Genes %>% 
+  mutate(Mean_Cx=(Cx1+Cx2+Cx3)/3,#Para crear nueva columna, con alguna condición 
+         Mean_Tx=(T1+T2+T3)/3) %>% 
+  select("Gen","Mean_Cx","Mean_Tx") #Para quitar columnas el select
+Mean_Gen
+#hsa= homosapiens mmu=mus musculus 
+
+Analisis <- Mean_Gen %>% 
+  mutate(DCt_Cx= Mean_Gen$Mean_Cx-Mean_Ref$Mean_Cx,
+         DCt_Tx=Mean_Gen$Mean_Tx-Mean_Ref$Mean_Tx, # El signo $ para llamar las columnas,para llamar una columna dentro de una tabla
+         DosDCT_Cx=2^ -(DCt_Cx),
+         DosDCT_Tx=2^ -(DCt_Tx),
+         DosDDCt = DosDCT_Tx/DosDCT_Cx) %>% 
+  select(-2,-3) 
+head(Analisis)
