@@ -1,0 +1,59 @@
+install.packages("pacman")
+library("pacman")
+
+p_load("readr",
+       "dplyr",
+       "ggplot2")
+
+PCR <-read.csv(file="https://raw.githubusercontent.com/ManuelLaraMVZ/Transcript-mica/main/datos_miRNAs.csv")
+head(PCR)
+
+Referencia <- PCR %>%
+  filter(Condicion=="Control") %>% 
+  select(-2)%>% 
+  filter(Gen == "U6 snRNA-001973")
+
+
+Genes <- PCR %>% 
+  filter (Condicion == "Target") %>% 
+  select(-2) 
+Genes
+
+Mean_Ref <-Referencia %>% 
+  mutate(Mean_Cx = (Cx1+Cx2+Cx3)/3,
+         Mean_Tx = (T1+T2+T3)/3) %>% 
+  select("Gen","Mean_Cx","Mean_Tx")
+Mean_Gen
+
+Mean_Gen <- Genes %>% 
+  mutate(Mean_Cx = (Cx1+Cx2+Cx3)/3,
+         Mean_Tx = (T1+T2+T3)/3) %>% 
+  select("Gen","Mean_Cx","Mean_Tx")
+Mean_Gen
+
+
+Analisis <- Mean_Gen %>%
+  mutate(DCt_Cx = Mean_Gen$Mean_Cx-Mean_Ref$Mean_Cx,
+         DCt_Tx = Mean_Gen$Mean_Tx-Mean_Ref$Mean_Tx,
+         DosDCt_Cx = 2^-(DCt_Cx),
+         DosDCt_Tx = 2^-(DCt_Tx),
+         DosDDCt = DosDCt_Tx/DosDCt_Cx)
+
+head(Analisis)
+
+#####Gráfica
+Grafica_1 <-ggplot(Analisis, 
+                   mapping = aes(x=DosDCt_Cx, y=DosDCt_Tx))+
+  geom_point(color="#865d8c")+
+  labs(title= "Analisis de datos miRNAs",
+       subtitle="Grafica de dispersión",
+       x="Condición control (2^-DCt)",
+       y="Condición tratamiento (2^-DCt)",
+       caption="Sofi Berdeja")+
+  theme_minimal()+
+  geom_smooth(method="lm",
+              alpha=0.05,
+              linewidth=1,
+              span=1,
+              color="#80d6d2")
+Grafica_1
