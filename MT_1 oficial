@@ -1,0 +1,17 @@
+title: "Evaluación MT-1"
+author: "Sofía Berdeja"
+date: "2025-03-05"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r}
+Nombre <- c("Sonia","Rebeca","Juan","Amanda","Gilberto")
+Edad <- c(25,20,19,19,25)
+Estatura <- c(1.6,1.78,1.9,1.55,1.7)
+Tabla_edad <- data.frame(Nombre=Nombre,
+                    Edad=Edad)
+Tabla_edad
+View(Tabla_edad)
+```
